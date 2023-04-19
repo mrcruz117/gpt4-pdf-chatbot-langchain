@@ -48,7 +48,7 @@ export const run = async () => {
 
     for (let i = 0; i < groupedDocs.length; i++) {
       const doc = groupedDocs[i];
-      console.log('doc', doc);
+      // console.log('doc', doc);
 
       const splitDocs = await textSplitter.splitDocuments([groupedDocs[i]]);
       //   console.log('split docs', splitDocs);
@@ -58,7 +58,7 @@ export const run = async () => {
         const pineconeNameSpace = PINECONE_NAME_SPACE;
 
         const chunk = splitDocs.slice(j, j + chunkSize);
-        console.log('chunk', j, chunk);
+        // console.log('chunk', j, chunk);
         await PineconeStore.fromDocuments(
           index,
           chunk,
