@@ -74,6 +74,10 @@ export default function Home() {
     setMessageState((state) => ({ ...state, pending: '' }));
 
     const ctrl = new AbortController();
+    if (messageListRef.current) {
+      // console.log(messageListRef.current);
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
 
     try {
       fetchEventSource('/api/chat', {
@@ -88,6 +92,7 @@ export default function Home() {
         signal: ctrl.signal,
         onmessage: (event) => {
           if (event.data === '[DONE]') {
+            // console.log('event', event);
             setMessageState((state) => ({
               history: [...state.history, [question, state.pending ?? '']],
               messages: [
@@ -105,6 +110,10 @@ export default function Home() {
             ctrl.abort();
           } else {
             const data = JSON.parse(event.data);
+            if (messageListRef.current) {
+              // console.log(messageListRef.current);
+              messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+            }
             if (data.sourceDocs) {
               setMessageState((state) => ({
                 ...state,
@@ -154,11 +163,12 @@ export default function Home() {
   }, [messages, pending, pendingSourceDocs]);
 
   //scroll to bottom of chat
-  useEffect(() => {
-    if (messageListRef.current) {
-      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
-    }
-  }, [chatMessages]);
+  // useEffect(() => {
+  //   if (messageListRef.current) {
+  //     // console.log(messageListRef.current);
+  //     messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+  //   }
+  // }, [handleSubmit]);
 
   return (
     <>
@@ -219,23 +229,27 @@ export default function Home() {
                             collapsible
                             className="flex-col"
                           >
-                            {message.sourceDocs.map((doc, index) => (
-                              <div key={`messageSourceDocs-${index}`}>
-                                <AccordionItem value={`item-${index}`}>
-                                  <AccordionTrigger>
-                                    <h3>Source {index + 1}</h3>
-                                  </AccordionTrigger>
-                                  <AccordionContent>
-                                    <ReactMarkdown linkTarget="_blank">
-                                      {doc.pageContent}
-                                    </ReactMarkdown>
-                                    <p className="mt-2">
-                                      <b>Source:</b> {doc.metadata.source}
-                                    </p>
-                                  </AccordionContent>
-                                </AccordionItem>
-                              </div>
-                            ))}
+                            {message.sourceDocs.map((doc, index) => {
+                              // console.log('message', message);
+                              // console.log('doc', doc);
+                              return (
+                                <div key={`messageSourceDocs-${index}`}>
+                                  <AccordionItem value={`item-${index}`}>
+                                    <AccordionTrigger>
+                                      <h3>Source {index + 1}</h3>
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                      <ReactMarkdown linkTarget="_blank">
+                                        {doc.pageContent}
+                                      </ReactMarkdown>
+                                      <p className="mt-2">
+                                        <b>Source:</b> {doc.metadata.source}
+                                      </p>
+                                    </AccordionContent>
+                                  </AccordionItem>
+                                </div>
+                              );
+                            })}
                           </Accordion>
                         </div>
                       )}
