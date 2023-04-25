@@ -33,7 +33,7 @@ export const run = async () => {
     console.log('creating vector store...');
     /*create and store the embeddings in the vectorStore*/
     const index = pinecone.Index(PINECONE_INDEX_NAME); //change to your own index name
-
+    // index.projectName = 'Default Project';
     console.log(
       `deleting all vectors in ${PINECONE_NAME_SPACE} namespace before ingestion...`,
     );
