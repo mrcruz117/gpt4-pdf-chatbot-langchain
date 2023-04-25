@@ -112,7 +112,8 @@ export default function Home() {
             const data = JSON.parse(event.data);
             if (messageListRef.current) {
               // console.log(messageListRef.current);
-              messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+              messageListRef.current.scrollTop =
+                messageListRef.current.scrollHeight;
             }
             if (data.sourceDocs) {
               setMessageState((state) => ({
@@ -175,7 +176,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat With Docs
+            Chat With Technical Documents (APU-Demo)
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
