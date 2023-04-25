@@ -27,6 +27,8 @@ export default async function handler(
     PINECONE_NAME_SPACE, //optional
   );
 
+  console.log('vectorStore', vectorStore);
+
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache, no-transform',
@@ -43,7 +45,7 @@ export default async function handler(
   const chain = makeChain(vectorStore, (token: string) => {
     sendData(JSON.stringify({ data: token }));
   });
-
+  console.log('chain', chain);
   try {
     //Ask a question
     console.log('history', history);
