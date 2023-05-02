@@ -38,7 +38,7 @@ export const makeChain = (
   const docChain = loadQAChain(
     new OpenAIChat({
       temperature: 0,
-      modelName: 'gpt-4', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
+      modelName: 'gpt-3.5-turbo', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
       // modelName: 'gpt-4',
       streaming: Boolean(onTokenStream),
       callbackManager: onTokenStream
@@ -58,6 +58,6 @@ export const makeChain = (
     combineDocumentsChain: docChain,
     questionGeneratorChain: questionGenerator,
     returnSourceDocuments: true,
-    k: 10, //number of source documents to return
+    k: 5, //number of source documents to return
   });
 };
